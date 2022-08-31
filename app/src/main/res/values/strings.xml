@@ -1,14 +1,23 @@
 <resources>
     <string name="app_name">NinQuiz</string>
     <string name="question_zelda">¿Link es el protagonista de la saga de Zelda?</string>
+    <string name="question_mario">¿Mario es el videojuego de las aventuras de un arqueologo?</string>
+    <string name="question_kong">¿Mario era carpintero en el juego de donkey kong?</string>
+    <string name="question_year">¿Nintendo se fundo en 1978?</string>
+    <string name="question_gameboy">¿El famoso juego de Zelda se jugo en un inicio en la Game Boy?</string>
+    <string name="question_mano">¿El personaje Link de la saga de Zelda es zurdo?</string>
+    <string name="question_jumpman">¿El primer nombre de Mario fue Jumpman?</string>
+    <string name="question_yoshi">¿Yoshi fue un personaje que debuto en un inicio en un juego de Super Mario?</string>
+    <string name="question_nin">¿Nintendo siempre se dedidco a los videojuegos?</string>
+    <string name="question_consola">¿La consola NES es la primera que lanzo Nintendo?</string>
+
     <string name="true_button">True</string>
     <string name="false_button">False</string>
     <string name="next_button">Next</string>
     <string name="correct_toast">¡CORRECTO!</string>
     <string name="incorrect_toast">¡INCORRECTO!</string>
 
-    <string name="question_mario">¿Mario es el videojuego de las aventuras de un arqueologo?</string>
-    <string name="question_kong">¿Mario era carpintero en el juego de donkey kong?</string>
+
 
 
 </resources>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="24dp"
-        android:text="@string/question_zelda" />
+        tools:text="@string/question_zelda" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -37,8 +37,11 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/next_button"
         android:layout_width="131dp"
         android:layout_height="wrap_content"
-        android:text="@string/next_button" />
+        android:text="@string/next_button"
+        app:icon="@drawable/arrow_right"
+        app:iconGravity="end" />
+
 </LinearLayout>
