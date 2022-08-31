@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">NinQuiz</string>
+    <string name="question_zelda">¿Link es el protagonista de la saga de Zelda?</string>
+    <string name="true_button">True</string>
+    <string name="false_button">False</string>
+    <string name="next_button">Next</string>
+    <string name="correct_toast">¡CORRECTO!</string>
+    <string name="incorrect_toast">¡INCORRECTO!</string>
+
+    <string name="question_mario">¿Mario es el videojuego de las aventuras de un arqueologo?</string>
+    <string name="question_kong">¿Mario era carpintero en el juego de donkey kong?</string>
+
+
+</resources>
