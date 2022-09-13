@@ -3,90 +3,113 @@ package german.adrian.quiz
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.ViewModel
 import com.google.android.material.snackbar.Snackbar
 import german.adrian.quiz.databinding.ActivityMainBinding
 
+private const val TAG = "MainActivity"
+
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    //private lateinit var trueButton : Button
-    //private lateinit var falseButton : Button
 
-    private val questionBank = listOf(
-        Question(R.string.question_zelda, true),
-        Question(R.string.question_mario, false),
-        Question(R.string.question_kong, true),
-        Question(R.string.question_year, false),
-        Question(R.string.question_gameboy, true),
-        Question(R.string.question_mano, true),
-        Question(R.string.question_jumpman, true),
-        Question(R.string.question_yoshi, true),
-        Question(R.string.question_nin, false),
-        Question(R.string.question_consola, false),
-        )
+    private val quizViewModel: QuizViewModel by viewModels ()
 
-    private var currentIndex = 0
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate(Bundle?) called")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //trueButton = findViewById(R. id.true_button)
-        //falseButton = findViewById(R. id.false_button)
+        Log.d(TAG, "Got a QuizViewModel: $quizViewModel")
+
 
         binding.trueButton.setOnClickListener { view: View ->
             //Toast.makeText(this, R.string.correct_toast,Toast.LENGTH_SHORT).show()
-            //val SnackBar = Snackbar.make(view, R.string.correct_toast, Snackbar.LENGTH_LONG)
-            //SnackBar.setBackgroundTint(getColor(R.color.green))
-            //SnackBar.show()
-            checkAnswer(true)
-
-
-
+            checkAnswer(true,view)
         }
         binding.falseButton.setOnClickListener { view: View ->
             //Toast.makeText(this, R.string.incorrect_toast,Toast.LENGTH_SHORT).show()
-            //val SnackBar = Snackbar.make(view, R.string.incorrect_toast, Snackbar.LENGTH_LONG)
-            //SnackBar.setBackgroundTint(getColor(R.color.red))
-            //SnackBar.show()
-            checkAnswer(false)
-
+            checkAnswer(false,view)
         }
 
         binding.nextButton.setOnClickListener {
-            currentIndex = (currentIndex + 1) % questionBank.size
-            //val questionTextResId = questionBank[currentIndex] . textResId
-            //binding.questionTextView.setText(questionTextResId)
+            //currentIndex = (currentIndex + 1) % questionBank.size
+            quizViewModel.moveToNext()
             updateQuestion()
         }
 
+        binding.prevButton.setOnClickListener {
+            //currentIndex = (currentIndex - 1) % questionBank.size
+            quizViewModel.moveToPrev()
+            updateQuestion()
+        }
 
-        //val questionTextResId = questionBank[currentIndex].textResId
-        //binding.questionTextView.setText(questionTextResId)
+        binding.questionTextView.setOnClickListener {
+            //currentIndex = (currentIndex + 1) % questionBank.size
+            quizViewModel.moveToNext()
+            updateQuestion()
+        }
+
         updateQuestion()
         }
 
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart() called")
+    }
 
-    private fun checkAnswer (userAnswer: Boolean) {
-        val correctAnswer = questionBank[currentIndex].respuesta
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume() called")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause() called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop() called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy() called")
+    }
+
+    private fun checkAnswer (userAnswer: Boolean, view: View) {
+        //val correctAnswer = questionBank[currentIndex].respuesta
+        val correctAnswer = quizViewModel.currentQuestionAnswer
 
         val messageResId = if (userAnswer == correctAnswer) {
             R.string.correct_toast
         } else {
             R.string.incorrect_toast
         }
-        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT) .show()
+
+        val color = if (userAnswer == correctAnswer) {
+            R.color.green
+        } else {
+            R.color.red
+        }
+
+        val SnackBar = Snackbar.make(view,messageResId,Snackbar.LENGTH_LONG)
+        SnackBar.setBackgroundTint(resources.getColor(color))
+        SnackBar.show()
 
     }
 
-
-
     private fun updateQuestion(){
-        val questionTextResId = questionBank[currentIndex]. textResId
+        //val questionTextResId = questionBank[currentIndex]. textResId
+        val questionTextResId = quizViewModel.currentQuestionText
         binding.questionTextView.setText(questionTextResId)
     }
 
