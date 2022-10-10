@@ -18,6 +18,10 @@
     <string name="correct_toast">¡CORRECTO!</string>
     <string name="incorrect_toast">¡INCORRECTO!</string>
 
+    <string name="warning_text">¿Estas seguro de que quieres hacer esto?</string>
+    <string name="show_answer_button">Ver respuestas</string>
+    <string name="cheat_button">Trampa!!</string>
+    <string name="judgment_toast">Hacer trampa esta mal</string>
 
 
 

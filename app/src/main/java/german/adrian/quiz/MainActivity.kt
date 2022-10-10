@@ -1,5 +1,7 @@
 package german.adrian.quiz
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,6 +9,8 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
@@ -20,6 +24,15 @@ class MainActivity : AppCompatActivity() {
 
     private val quizViewModel: QuizViewModel by viewModels ()
 
+    private val cheatLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        // Handle the result
+        if (result.resultCode ==Activity.RESULT_OK) {
+            quizViewModel.isCheater =
+                result.data?.getBooleanExtra(EXTRA_ANSWER_SHOWN,false) ?: false
+        }
+    }
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +56,15 @@ class MainActivity : AppCompatActivity() {
             //currentIndex = (currentIndex + 1) % questionBank.size
             quizViewModel.moveToNext()
             updateQuestion()
+        }
+
+        binding.cheatButton.setOnClickListener {
+            //Start CheatActivity
+            //val intent = Intent (this, CheatActivity::class.java)
+            val answerIsTrue = quizViewModel.currentQuestionAnswer
+            val intent = CheatActivity.newIntent(this@MainActivity, answerIsTrue)
+            //startActivity(intent)
+            cheatLauncher.launch(intent)
         }
 
         binding.prevButton.setOnClickListener {
@@ -89,10 +111,10 @@ class MainActivity : AppCompatActivity() {
         //val correctAnswer = questionBank[currentIndex].respuesta
         val correctAnswer = quizViewModel.currentQuestionAnswer
 
-        val messageResId = if (userAnswer == correctAnswer) {
-            R.string.correct_toast
-        } else {
-            R.string.incorrect_toast
+        val messageResId = when {
+            quizViewModel.isCheater -> R.string.judgment_toast
+            userAnswer == correctAnswer ->R.string.correct_toast
+            else -> R.string.incorrect_toast
         }
 
         val color = if (userAnswer == correctAnswer) {
@@ -100,6 +122,8 @@ class MainActivity : AppCompatActivity() {
         } else {
             R.color.red
         }
+
+
 
         val SnackBar = Snackbar.make(view,messageResId,Snackbar.LENGTH_LONG)
         SnackBar.setBackgroundTint(resources.getColor(color))
